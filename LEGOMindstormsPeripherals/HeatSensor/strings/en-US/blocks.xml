@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EditorStrings>
   <PolyGroups ModuleName="SampleSensor">
-	<PolyGroup Name="SampleSensor" DisplayName="Sample Sensor" DisplayNamePrefix="SampleSensor">
+	<PolyGroup Name="HeatSensor" DisplayName="Heat Sensor" DisplayNamePrefix="HeatSensor">
       <Parameter Name="Direction" DisplayName="Direction" >
         <Description><![CDATA[<p>Context help for Direction</p>]]></Description>
       </Parameter>
