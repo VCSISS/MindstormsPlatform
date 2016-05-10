@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EditorStrings>
+  <PolyGroups ModuleName="Mindsensors NXTCAM">
+    
+	<PolyGroup Name="NXTCAM" DisplayName="Mindsensors NXTCAM">
+      <Description><![CDATA[<p>Context help for PolyGroup <b>LightSensorArray</b></p>]]></Description>
+      <Parameter Name="Port" DisplayName="Port">
+        <Description><![CDATA[<p>Context help for Parameter <b>Port</b></p>]]></Description>
+      </Parameter>
+	  <Parameter Name="I2CAddr" DisplayName="I2CAddr">
+        <Description><![CDATA[<p>Context help for Parameter <b>I2CAddr</b></p>]]></Description>
+      </Parameter>
+	    <Parameter Name="ObjectID" DisplayName="Object Number to Track">
+        <Description><![CDATA[<p>Context help for Parameter <b>ObjectID</b></p>]]></Description>
+      </Parameter>
+	  <!--<Parameter Name="Colormap" DisplayName="Color Map">
+        <Description><![CDATA[<p>Context help for Parameter <b>Colormap</b></p>]]></Description>
+      </Parameter>
+	  <Parameter Name="WhiteBalance" DisplayName="Auto White Balance">
+        <Description><![CDATA[<p>Context help for Parameter <b>WhiteBalance</b></p>]]></Description>
+      </Parameter>
+      <Parameter Name="ModeAdjust" DisplayName="Auto Mode Adjust">
+        <Description><![CDATA[<p>Context help for Parameter <b>ModeAdjust</b></p>]]></Description>
+      </Parameter>
+      <Parameter Name="FlourescentFilter" DisplayName="Flourescent Light Filter">
+        <Description><![CDATA[<p>Context help for Parameter <b>FlourescentFilter</b></p>]]></Description>
+      </Parameter>-->
+      <Parameter Name="TotalTracked" DisplayName="Total Objects Tracked">
+        <Description><![CDATA[<p>Context help for Parameter <b>TotalTracked</b></p>]]></Description>
+      </Parameter>
+      <Parameter Name="Color" DisplayName="Color">
+        <Description><![CDATA[<p>Context help for Parameter <b>Color</b></p>]]></Description>
+      </Parameter>
+      <Parameter Name="XUpLeft" DisplayName="X Upper Left">
+        <Description><![CDATA[<p>Context help for Parameter <b>XUpLeft</b></p>]]></Description>
+      </Parameter>
+      <Parameter Name="YUpLeft" DisplayName="Y Upper Left">
+        <Description><![CDATA[<p>Context help for Parameter <b>YUpLeft</b></p>]]></Description>
+      </Parameter>
+      <Parameter Name="XLowRight" DisplayName="X Lower Right">
+        <Description><![CDATA[<p>Context help for Parameter <b>XLowRight</b></p>]]></Description>
+      </Parameter>
+      <Parameter Name="YLowRight" DisplayName="Y Lower Right">
+        <Description><![CDATA[<p>Context help for Parameter <b>YLowRight</b></p>]]></Description>
+      </Parameter>
+	  <Parameter Name="BoolCheck" DisplayName="Success?">
+        <Description><![CDATA[<p>Context help for Parameter <b>BoolCheck</b></p>]]></Description>
+      </Parameter>	  
+	  <Block Mode="GetFirstObject" DisplayName="Get First Object">
+		  <Description><![CDATA[<p>Context help for Block <b>GetFirstObject</b></p>]]></Description>
+	  </Block>
+	  <Block Mode="GetnthObject" DisplayName="Get nth Object">
+		  <Description><![CDATA[<p>Context help for Block <b>GetnthObject</b></p>]]></Description>
+	  </Block>
+	  <Category Name="Tracking" DisplayName="Tracking" >
+		  <Block Mode="EnableTracking" DisplayName="Enable Tracking">
+			<Description><![CDATA[<p>Context help for Block <b>EnableTracking</b></p>]]></Description>
+		  </Block>
+		  <Block Mode="DisableTracking" DisplayName="Disable Tracking">
+			<Description><![CDATA[<p>Context help for Block <b>DisableTracking</b></p>]]></Description>
+		  </Block>
+		  <Block Mode="LineTracking" DisplayName="Line Tracking Mode">
+			<Description><![CDATA[<p>Context help for Block <b>LineTracking</b></p>]]></Description>
+		  </Block>
+		  <Block Mode="ObjectTracking" DisplayName="Object Tracking Mode">
+			<Description><![CDATA[<p>Context help for Block <b>ObjectTracking</b></p>]]></Description>
+		  </Block>
+	  </Category>	  
+	  <Category Name="Sort" DisplayName="Sort" >		  
+		  <Block Mode="SortObjectSize" DisplayName="Sort Objects by Size">
+			<Description><![CDATA[<p>Context help for Block <b>SortObjectSize</b></p>]]></Description>
+		  </Block>
+		  <Block Mode="SortObjectColors" DisplayName="Sort Objects by Colors">
+			<Description><![CDATA[<p>Context help for Block <b>SortObjectColor</b></p>]]></Description>
+		  </Block>
+	  </Category>	  
+	  <!--<Category Name="Settings" DisplayName="Settings" >		  
+		  <Block Mode="WriteColormap" DisplayName="Write Colormap">
+			<Description><![CDATA[<p>Context help for Block <b>WriteColormap</b></p>]]></Description>
+		  </Block>
+		  <Block Mode="CameraSettings" DisplayName="Camera Settings">
+			<Description><![CDATA[<p>Context help for Block <b>CameraSettings</b></p>]]></Description>
+		  </Block>
+	  </Category>-->	  
+    </PolyGroup>
+
+  </PolyGroups>
+</EditorStrings>

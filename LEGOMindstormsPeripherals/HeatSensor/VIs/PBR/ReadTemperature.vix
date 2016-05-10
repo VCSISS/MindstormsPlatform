@@ -16,12 +16,12 @@
                 <DataAccessor DataItem="Port" Id="n19" Bounds="371 168 70 14">
                     <Terminal Id="Value" Direction="Output" Wire="w4" Hotspot="1 0.5" Bounds="0 0 70 14" />
                 </DataAccessor>
-                <MethodCall Id="n3" Bounds="462 168 56 56" Target="SampleSensorEV3Core\.vix">
+                <Wire Id="w4" Joints="N(n19:Value) h(15) v(-14) N(n6:Port)" />
+                <Wire Id="w5" Joints="N(n6:Value) h(-7) v(14) N(n14:Value)" />
+                <MethodCall Id="n6" Bounds="469 154 56 56" Target="ReadTemperatureEV3Core\.vix">
                     <Terminal Id="Port" Direction="Input" Wire="w4" DataType="Single" Hotspot="0 0.5" Bounds="0 0 14 14" />
                     <Terminal Id="Value" Direction="Output" Wire="w5" DataType="Single" Hotspot="1 0.5" Bounds="42 0 14 14" />
                 </MethodCall>
-                <Wire Id="w4" Joints="N(n19:Value) N(n3:Port)" />
-                <Wire Id="w5" Joints="N(n3:Value) N(n14:Value)" />
             </BlockDiagram>
         </VirtualInstrument>
     </Namespace>

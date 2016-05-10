@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EditorDefinitions>
-  <PolyGroups ModuleName="HeatSource" ModuleVersion="1.00">
-	  <PolyGroup Name="HeatSource" BlockFamily="Sensor">
+  <PolyGroups ModuleName="HeatSensor" ModuleVersion="1.00">
+	  <PolyGroup Name="HeatSensor" BlockFamily="Sensor">
         <!--<Parameter Name="Direction" Direction="Input" DataType="UInt32" DefaultValue="2" Configuration="builtin://Identification_WaitForChange.xml" Identification="builtin://Identification_WaitForChange.xml" />
         <Parameter Name="Port" CompilerDirectives="OneInputPort" Direction="Input" DefaultValue="1.3" />
         <Parameter Name="Comparison" Direction="Input" Configuration="builtin://Identification_ComparisonType.xml" Identification="builtin://Identification_ComparisonType.xml" DataType="Int32" DefaultValue="4" />

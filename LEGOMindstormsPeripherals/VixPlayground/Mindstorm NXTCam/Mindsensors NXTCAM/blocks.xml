@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EditorDefinitions>
+  <PolyGroups ModuleName="Mindsensors NXTCAM" ModuleVersion="1.00">
+    
+	<PolyGroup Name="NXTCAM" DisplayNamePrefix="NXTCAM" BlockFamily="Sensor">
+      <Parameter Name="Port" CompilerDirectives="OneInputPort" Direction="Input" DefaultValue="1.1" />
+	  <Parameter Name="I2CAddr" Identification="i2c_addr.png" DataType="UInt8" Direction="Input" DefaultValue="2" />
+	  <Parameter Name="ObjectID" Configuration="Output_CamObjectID.xml" Identification="Output_CamObjectID.xml" DataType="UInt8" Direction="Input" DefaultValue="1" />
+	  <!--<Parameter Name="Colormap" Identification="Shell_Numeric.png" DataType="String" Direction="Input" DefaultValue="0" />
+	  <Parameter Name="WhiteBalance" Identification="Shell_Boolean.png" DataType="Boolean" Direction="Input" DefaultValue="False" />
+	  <Parameter Name="ModeAdjust" Identification="Shell_Boolean.png" DataType="Boolean" Direction="Input" DefaultValue="False" />
+	  <Parameter Name="FlourescentFilter" Identification="Shell_Boolean.png" DataType="Boolean" Direction="Input" DefaultValue="False" />-->
+	  <Parameter Name="TotalTracked" Identification="TrackTotal.png" DataType="Int32" Direction="Output" />
+	  <Parameter Name="Color" Identification="CamColor.png" DataType="Int32" Direction="Output" />
+	  <Parameter Name="XUpLeft" Identification="XupL.png" DataType="Int32" Direction="Output" />
+	  <Parameter Name="YUpLeft" Identification="YupL.png" DataType="Int32" Direction="Output" />
+	  <Parameter Name="XLowRight" Identification="XlowR.png" DataType="Int32" Direction="Output" />
+	  <Parameter Name="YLowRight" Identification="YlowR.png" DataType="Int32" Direction="Output" />
+	  <Parameter Name="BoolCheck" Identification="Success.png" DataType="Boolean" Direction="Output" />	  	  
+      <Block>
+	  <Mode>GetFirstObject</Mode>
+		<Reference Type="VILib" Name="GetFirstObject.vix" />
+		<ParameterReference Name="Port" />
+		<ParameterReference Name="I2CAddr" />
+		<ParameterReference Name="TotalTracked" />
+		<ParameterReference Name="Color" />
+		<ParameterReference Name="XUpLeft" />
+		<ParameterReference Name="YUpLeft" />
+		<ParameterReference Name="XLowRight" />
+		<ParameterReference Name="YLowRight" />
+		<ParameterReference Name="BoolCheck" />	
+		<BlockInterface>Measure</BlockInterface>
+		<PaletteInfo Weight="0.5" />
+	  </Block>	  
+	  <Block>
+	  <Mode>GetnthObject</Mode>
+		<Reference Type="VILib" Name="GetnthObject.vix" />
+		<ParameterReference Name="Port" />
+		<ParameterReference Name="I2CAddr" />
+		<ParameterReference Name="ObjectID" />
+		<ParameterReference Name="TotalTracked" />
+		<ParameterReference Name="Color" />
+		<ParameterReference Name="XUpLeft" />
+		<ParameterReference Name="YUpLeft" />
+		<ParameterReference Name="XLowRight" />
+		<ParameterReference Name="YLowRight" />
+		<ParameterReference Name="BoolCheck" />
+		<BlockInterface>Measure</BlockInterface>
+	  </Block>	  	  
+      <Category Name="Tracking" >
+		  <Block>
+		  <Mode>EnableTracking</Mode>
+			<Reference Type="VILib" Name="EnableTracking.vix" />
+			<ParameterReference Name="Port" />
+			<ParameterReference Name="I2CAddr" />
+		  </Block>	  
+		  <Block>
+		  <Mode>DisableTracking</Mode>
+			<Reference Type="VILib" Name="DisableTracking.vix" />
+			<ParameterReference Name="Port" />
+			<ParameterReference Name="I2CAddr" />
+		  </Block>		  
+		  <Block>
+		  <Mode>LineTracking</Mode>
+			<Reference Type="VILib" Name="LineTracking.vix" />
+			<ParameterReference Name="Port" />
+			<ParameterReference Name="I2CAddr" />
+		  </Block>
+		  <Block>
+		  <Mode>ObjectTracking</Mode>
+			<Reference Type="VILib" Name="ObjectTracking.vix" />
+			<ParameterReference Name="Port" />
+			<ParameterReference Name="I2CAddr" />
+		  </Block>
+	  </Category>		 
+	  <Category Name="Sort" >
+		  <Block>
+		  <Mode>SortObjectSize</Mode>
+			<Reference Type="VILib" Name="SortObjectSize.vix" />
+			<ParameterReference Name="Port" />
+			<ParameterReference Name="I2CAddr" />
+		  </Block>		  
+		  <Block>
+		  <Mode>SortObjectColors</Mode>
+			<Reference Type="VILib" Name="SortObjectColors.vix" />
+			<ParameterReference Name="Port" />
+			<ParameterReference Name="I2CAddr" />
+		  </Block>
+	  </Category>	  
+	  <!--<Category Name="Settings" >
+		  <Block>
+		  <Mode>WriteColormap</Mode>
+			<Reference Type="VILib" Name="WriteColormap.vix" />
+			<ParameterReference Name="Port" />
+			<ParameterReference Name="I2CAddr" />
+			<ParameterReference Name="Colormap" />
+		  </Block>		  
+		  <Block>
+		  <Mode>CameraSettings</Mode>
+			<Reference Type="VILib" Name="CameraSettings.vix" />
+			<ParameterReference Name="Port" />
+			<ParameterReference Name="I2CAddr" />
+			<ParameterReference Name="WhiteBalance" />
+			<ParameterReference Name="ModeAdjust" />
+			<ParameterReference Name="FlourescentFilter" />
+		  </Block>
+	  </Category>--> 	  
+    </PolyGroup>
+
+  </PolyGroups> 
+</EditorDefinitions>

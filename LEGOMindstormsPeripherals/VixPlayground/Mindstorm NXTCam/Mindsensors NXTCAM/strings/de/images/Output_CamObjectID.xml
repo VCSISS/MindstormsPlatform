@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definition Type="Integer">
+
+  <Entry Name="Object1" DisplayName="Object1" />
+  <Entry Name="Object2" DisplayName="Object2"/>
+  <Entry Name="Object3" DisplayName="Object3"/>
+  <Entry Name="Object4" DisplayName="Object4"/>
+  <Entry Name="Object5" DisplayName="Object5"/>
+  <Entry Name="Object6" DisplayName="Object6"/>
+  <Entry Name="Object7" DisplayName="Object7"/>
+  <Entry Name="Object8" DisplayName="Object8"/>
+  	
+</Definition>

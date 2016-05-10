@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definition Type="Integer">
+  <Point Value="1" Name="Object1" ImageSuffix="_1" />
+  <Point Value="2" Name="Object2" ImageSuffix="_2" />
+  <Point Value="3" Name="Object3" ImageSuffix="_3" />
+  <Point Value="4" Name="Object4" ImageSuffix="_4" />
+  <Point Value="5" Name="Object5" ImageSuffix="_5" />
+  <Point Value="6" Name="Object6" ImageSuffix="_6" />
+  <Point Value="7" Name="Object7" ImageSuffix="_7" />
+  <Point Value="8" Name="Object8" ImageSuffix="_8" />
+  
+</Definition>

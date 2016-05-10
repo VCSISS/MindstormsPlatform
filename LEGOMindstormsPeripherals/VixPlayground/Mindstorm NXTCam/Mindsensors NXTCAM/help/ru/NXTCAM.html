@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <h1>NXTCam Block<a name="top"></a></h1>
+    <div id="block_937" class="block blockHeader">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr>
+            <td class="image" valign="top"><img
+src="images/NXTCam.png"
+                height="128" width="128"> </td>
+            <td class="description" valign="top">
+              <div class="text-wrapper">This block interfaces with <a href="http://www.mindsensors.com/pages/78">NXTCam</a> from <a
+                  href="http://www.mindsensors.com">mindsensors.com</a>
+                <br>
+                At setup time, <a href="http://www.mindsensors.com/pages/78">NXTCam</a> allows you to define object(s) in it's environment by color.<br>
+				At runtime, it can track object(s), and provide you it's color and bounding box. <br>
+                <br>
+				<span style="color: rgb(255, 0, 0);"><b> If you have not already, please install NXTCamView program developed by Paul Tingey from <a
+                  href="http://www.nxtcamview.sourceforge.net">sourceforge.net</a>.</b></span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="block_938" class="block blockTip">
+      <div class="title">Tips and Tricks </div>
+      <div class="boxContent">
+        <div class="description"> In your NXT-G program, to begin tracking operation, you should add a block with "Enable Tracking" operation.
+This block should then be followed by a block to 'Get First Object'.
+At this time, from this block you can read the number of objects being tracked. <br>
+        </div>
+      </div>
+    </div>
+    <div id="block_940" class="block blockChaptor">
+      <div class="title"><a name="ChooseTheSensorPortAndMode"
+          style="position:relative; top:-10px;"></a>Choose the Sensor
+        Port and Mode </div>
+      <div class="description"><img
+          src="images/NXTCam_IO.png"
+          height="155" width="412"> <br>
+        <br>
+        <img src="images/1.png"
+          height="22" width="26"> Port Selector <br>
+        <img src="images/2.png"
+          height="22" width="26"> Mode Selector<br>
+        <img src="images/3.png"
+          height="22" width="26"> Inputs<br>
+        <img src="images/4.png"
+          height="22" width="26"> Outputs<br>
+        <br>
+        Use the <a href="page.html?Path=editor%2FPortSelector.html">Port
+
+          Selector</a> on the top of the block to make sure that the
+        sensor port number (1, 2, 3, or 4) matches the port on the EV3
+        Brick that the <a href="http://www.mindsensors.com/pages/78">NXTCam</a> Sensor is connected to. <br>
+        <br>
+        Use the Mode Selector to select the mode for the block. The <a
+          href="#InputsAndOutputs">Inputs and Outputs</a> available will
+        change depending on the mode. </div>
+    </div>
+    <div id="block_941" class="block blockChaptor">
+      <div class="title"><a name="Modes" style="position:relative;
+          top:-10px;"></a>Modes </div>
+      <div class="description"> </div>
+    </div>
+    <div id="block_942" class="block blockMode">
+      <div class="title"><a name="Mode_Get1" style="position:relative;
+          top:-10px;"></a>Get First Object </div>
+      <div class="description"><img src="images/NXTCam_Get1st.png"
+          height="95" width="332"> <br>
+        <br>
+        Retrieves the <a href="#Total Tracked">number of objects tracked</a>, as well as the <a href="#Color">color</a> and <a href="#XUL">coordinates</a> of the first object.
+      </div>
+    </div>
+    <div id="block_943" class="block blockMode">
+      <div class="title"><a name="Mode_GetNth" style="position:relative;
+          top:-10px;"></a>Get nth Object </div>
+      <div class="description"><img src="images/NXTCam_GetNth.png"
+          height="95" width="353"> <br>
+        <br>
+        Allows the user to <a href="#Num2Track">select the number of a specific object</a>. Then retrieves the <a href="#Total Tracked">number of objects tracked</a>, as well as the <a href="#Color">color</a> and <a href="#XUL">coordinates</a> of the selected object. <br>
+      </div>
+    </div>
+    <div id="block_944" class="block blockMode">
+      <div class="title"><a name="Mode_EnableTrack" style="position:relative;
+          top:-10px;"></a>Enable Tracking </div>
+      <div class="description"><img	src="images/NXTCam_EnableTrack.png"
+          height="95" width="117"> <br>
+        <br>
+        Start tracking your objects. This energizes the camera chip (consuming power) and begins processing the images. <br>
+      </div>
+    </div>
+    <div id="block_945" class="block blockMode">
+      <div class="title"><a name="Mode_DisableTrack" style="position:relative;
+          top:-10px;"></a>Disable Tracking </div>
+      <div class="description"><img src="images/NXTCam_DisableTrack.png"
+          height="95" width="116"> <br>
+        <br> Stops tracking to conserve the battery power.
+        <br>
+      </div>
+    </div>
+    
+	<div id="block_946" class="block blockMode">
+      <div class="title"><a name="Mode_LineTrack"
+          style="position:relative; top:-10px;"></a>Line Tracking Mode </div>
+      <div class="description"><img
+src="images/NXTCam_LineTrack.png"
+          height="95" width="116"> <br>
+        <br>Enables Line tracking mode. Screen will display a broken line corresponding to each chosen color.
+      </div>
+    </div>
+    <div id="block_947" class="block blockMode">
+      <div class="title"><a name="Mode_ObjectTrack"
+          style="position:relative; top:-10px;"></a>Object Tracking Mode </div>
+      <div class="description"><img
+src="images/NXTCam_ObjectTrack.png"
+          height="95" width="115"> <br>
+        <br>Enables Object tracking mode. Screen will display a rectangular box corresponding to each chosen color. (Default tracking mode)
+      </div>
+	  </br>
+    </div>
+    <div id="block_950" class="block blockTip">
+      <div class="title">Tips and Tricks </div>
+      <div class="boxContent">
+        <div class="description"><a href="http://www.mindsensors.com/pages/78">NXTCam</a> captures an image, analyzes  it, and extracts 8 objects from that image which will match the colors specified in the colormap. 
+			<br>Before returning the object info to you (coordinates and color), this command specifies how to sort them. 
+			<br>They are sorted first to last. </div>
+      </div>
+    </div>
+	<div id="block_948" class="block blockMode">
+      <div class="title"><a name="Mode_SortSize"
+          style="position:relative; top:-10px;"></a>Sort Objects by Size </div>
+      <div class="description"><img
+src="images/NXTCam_SortSize.png"
+          height="95" width="115"> <br>
+        <br>
+         The objects tracked could be of varying sizes. This option sorts them by the size while processing the image. The largest object will be first object.</div>
+    </div>
+    <div id="block_949" class="block blockMode">
+      <div class="title"><a name="Mode_SortColors"
+          style="position:relative; top:-10px;"></a>Sort Objects by Colors </div>
+      <div class="description"><img
+src="images/NXTCam_SortColor.png"
+          height="95" width="116"> <br>
+        <br>
+         The objects tracked could be of varying colors. This option sorts them by color while processing the image. Color 1 (selected in nxtcamview) will first color.</div>
+    </div>
+    </div>
+    <div id="block_952" class="block blockChaptor">
+      <div class="title"><a name="InputsAndOutputs"
+          style="position:relative; top:-10px;"></a>Inputs and Outputs <a
+          name="Parameters" style="position:relative; top:-10px;"></a> </div>
+      <div class="description">The inputs available for the <a href="http://www.mindsensors.com/pages/78">NXTCam</a>
+        sensor block will depend on the mode selected. You can enter the
+        input values directly into the block. Alternatively, the input
+        values can be supplied by <a
+          href="page.html?Path=editor%2FDataWires.html">Data Wires</a>
+        from the outputs of other Programming Blocks. </div>
+    </div>
+    <div id="block_953" class="block blockTable ">
+      <table class="blockTable">
+        <tbody>
+          <tr>
+            <th>Input</th>
+            <th>Type</th>
+            <th>Allowed Values</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>I2C Address <a name="I2C Adddress"
+                style="positive:relative; top:-10px;"></a> </td>
+            <td>Numeric </td>
+            <td>Any number </td>
+            <td>Establishes connection to EV3 brick <br>
+              The I2C address of the sensor.&nbsp; The factory default
+              address is 2 (0x02). Choose appropriate value if you have
+              specifically changed the address. </td>
+          </tr>
+          <tr>
+            <td>Object Number to Track <a name="Num2Track"
+                style="position:relative; top:-10px;"></a> </td>
+            <td>Numeric </td>
+            <td>0 - 8 </td>
+            <td>Allows the user to specify which number object to track.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="block_954" class="block blockStep">
+      <div class="title"> </div>
+      <div class="description">The outputs available will depend on the
+        mode selected. To use an output, use a <a
+          href="page.html?Path=editor%2FDataWires.html">Data Wire</a> to
+        connect it to another Programming Block. </div>
+    </div>
+    <div id="block_955" class="block blockTable ">
+      <table class="blockTable">
+        <tbody>
+          <tr>
+            <th>Output</th>
+            <th>Type</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>Total Objects Tracked <a name="Total Tracked" style="position:relative;
+                top:-10px;"></a> </td>
+            <td>Numeric </td>
+            <td>Total number of objects tracked (0-8). </td>
+          </tr>
+          <tr>
+            <td>Color <a name="Color" style="position:relative;
+                top:-10px;"></a> </td>
+            <td>Numeric </td>
+            <td>Numeric value of color in colormap (0-8). </td>
+          </tr>
+          <tr>
+            <td>X Upper Left <a name="XUL" style="position:relative;
+                top:-10px;"></a> </td>
+            <td>Numeric </td>
+            <td>Upper left  X-coordinate of object. X-coordinates range 0-144. </td>
+          </tr>
+          <tr>
+            <td>Y Upper Left <a name="YUL" style="position:relative;
+                top:-10px;"></a> </td>
+            <td>Numeric </td>
+            <td>Upper left  Y-coordinate of object. Y-coordinates range 0-88 </td>
+          </tr>
+          <tr>
+            <td>X Lower Right <a name="XLR" style="position:relative;
+                top:-10px;"></a> </td>
+            <td>Numeric </td>
+            <td>Lower right  X-coordinate of object. </td>
+          </tr>
+          <tr>
+            <td>Y Lower Right <a name="YLR" style="position:relative;
+                top:-10px;"></a> </td>
+            <td>Numeric </td>
+            <td>Lower right of Y-coordinate of object. </td>
+          </tr>          
+          <tr>
+            <td>Success? <a name="Success" style="position:relative;
+                top:-10px;"></a> </td>
+            <td>Logic </td>
+            <td>Allows the user to test the output data for read errors.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="quick">
+      <div class="header"><a href="#header">Mindsensors NXTCam</a> </div>
+      <div class="quickText">Quick links </div>
+      <ul>
+        <li><a href="#ChooseTheSensorPortAndMode">Choose the Sensor Port and Mode</a></li>
+        <li><a href="#Modes">Modes</a></li>
+        <li><a href="#Mode_Get1">Get First Object </a></li>
+        <li><a href="#Mode_GetN">Get nth Object </a></li>
+        <li><a href="#Mode_EnableTrack">Enable Tracking</a></li>
+        <li><a href="#Mode_DisableTrack">Disable Tracking</a></li>
+        <li><a href="#Mode_LineTrack">Line Tracking Mode</a></li>
+        <li><a href="#Mode_ObjectTrack">Object Tracking Mode</a></li>
+        <li><a href="#Mode_SortSize">Sort Objects by Size</a></li>
+        <li><a href="#Mode_SortColors">Sort Objects by Colors</a></li>
+        <li><a href="#InputsAndOutputs">Inputs and Outputs</a></li>
+      </ul>
+    </div>
+  </body>
+</html>
