@@ -19,13 +19,16 @@ namespace BlockCreatorConsole
     /// </summary>
     class CommandLineHandler
     {
+        // TODO: make way for this tool to "remember" which block/mode was being
+        // edited last; so that the user won't have to specify it each time
+        // a user edits things like hardware information or parameters for a mode
 
         // block
         private static bool showHelp = false;
 
         // The options you can pass when you do not specify a command
         // (such as "module" or "makeblock")
-        private static OptionSet noCommandOptions = new OptionSet()
+        private static OptionSet noCommandGivenOptions = new OptionSet()
         {
             { "h|help", "show help about BlockCreator",
                 v => showHelp = true }
@@ -34,52 +37,56 @@ namespace BlockCreatorConsole
         // To see how each of these parameters are used in the
         // generated blocks.xml, see README.md
 
+        // TODO: add -h or --help option to each of these
+
         // block module
+        private static bool createModule = false;
+        private static bool editModule = false;
+
         private static string moduleName = "";
         private static string moduleVersion = "";
-        
+       
         private static OptionSet moduleOptions = new OptionSet()
         {
-            { "n|name=", "the name of the module",
-                v => moduleName = v },
-            { "v|version=", "the current version of the module",
-                v => moduleVersion = v }
-        };
-        
-        // block editmodule
-        private static string editModuleName = "";
-        private static string editModuleVersion = "";
-
-        private static OptionSet editModuleOptions = new OptionSet()
-        {
+            { "c|create", "create a new module",
+               v => createModule = (v != null) },
+            { "e|edit", "edit an existing module",
+                v => editModule = (v != null) },
+            // TODO: add delete option here
             { "n|name=", "the name of the module",
                 v => moduleName = v },
             { "v|version=", "the current version of the module",
                 v => moduleVersion = v }
         };
 
-        // block makeblock
+        // block block
+        private static bool createBlock = false;
+        private static bool editBlock = false;
+        private static bool deleteBlock = false;
+
         private static string blockName = "";
         private static string blockFamily = "";
 
-        private static OptionSet makeBlockOptions = new OptionSet()
+        private static OptionSet blockOptions = new OptionSet()
         {
+            { "c|create", "create a new block",
+               v => createBlock = (v != null) },
+            { "e|edit", "edit an existing block",
+               v => editBlock = (v != null) },
+            { "d|delete", "deletes a block",
+               v => deleteBlock = (v != null) },
+
             { "n|name=", "the name of the block",
               v => blockName = v },
             { "f|family=", "the family the block is in (Action, DataOperations, FlowControl, Sensor, or Advanced)",
               v => blockFamily = v }
         };
 
-        // block removeblock
-        private static string removeBlockName = "";
-
-        private static OptionSet removeBlockOptions = new OptionSet()
-        {
-            { "n|name=", "the name of the block to remove",
-              v => removeBlockName = v }
-        };
-
         // block param
+        private static bool createParam = false;
+        private static bool deleteParam = false;
+        private static bool editParam = false;
+
         private static string paramName = "";
         private static string paramDirection = "";
         private static string paramDataType = ""; // TODO: to keep BlockCreator simple, we may remove this
@@ -90,10 +97,16 @@ namespace BlockCreatorConsole
         private static string paramIdent = "";
         private static string paramCompilerDirs = "";
         private static string paramValueDisplay = "";
-        private static bool removeParam = false;
 
         private static OptionSet paramOptions = new OptionSet()
         {
+            { "c|create", "create a new parameter",
+              v => createParam = (v != null) },
+            { "e|edit", "edits a parameter",
+              v => editParam = (v != null) },
+            { "r|delete", "delete a parameter",
+              v => deleteParam = (v != null) },
+
             { "n|name=", "the name of the parameter",
               v => paramName = v },
             { "d|direction=", "the direction of the parameter; this can be Input or Output (argument or return value)",
@@ -115,12 +128,11 @@ namespace BlockCreatorConsole
             // TODO: figure out what valueDisplay actually does (the documentation only mentions this one
             // purpose as an example, but doesn't actually say what it represents)
             { "p|valueDisplay=", "the images displayed at the top of the cases of a switch block (this is the only use of the value display that we currently know of)",
-              v => paramValueDisplay = v },
-            { "r|remove", "if present, deletes the parameter specified by the \"name\" option",
-              v => removeParam = (v != null) }
+              v => paramValueDisplay = v }
         };
 
         // block hardware
+        private static string hwareBlockName = "";
         private static string hwareEv3AutoId = "";
         private static string hwareOtherAutoId = "";
         private static string hwareDirection = "";
@@ -128,6 +140,8 @@ namespace BlockCreatorConsole
 
         private static OptionSet hwareOptions = new OptionSet()
         {
+            { "b|block=", "the name of the block which this hardware configuration applies to",
+              v => hwareBlockName = v },
             { "i|ev3AutoId=", "the number used for the EV3's Auto ID functionality (if it does not not use this, then it should just be -1",
               v => hwareEv3AutoId = v },
             { "o|otherAutoId=", "the Auto IDs of other sensors that also use this block",
@@ -138,41 +152,45 @@ namespace BlockCreatorConsole
               v => hwareDefaultPort = v }
         };
 
-        // block makemode
+        // block mode
+        private static bool createMode = false;
+        private static bool editMode = false;
+        private static bool deleteMode = false;
+
+        private static string modeBlockName = "";
         private static string modeName = "";
-
-        private static OptionSet makeModeOptions = new OptionSet()
-        {
-            { "n|name=", "the name of the mode",
-               v => modeName = v }
-        };
-
-        // block editmode
-        private static string editModeName = "";
-        private static string modeRef = "";
+        private static string modeVIXRef = "";
         private static string modeParamRef = "";
         // The existance of this element indicates the default mode
         // for a block. Its actual purpose, however, is to tell the block's
         // weight (where it appears from left to right in the palette).
-        private static string modeDefaultAndWeight = "";
+        private static string modeWeight = "";
         private static string modeType = "";
         private static string modeFlags = "";
         private static string hwareModeInfoName = "";
         private static string hwareModeInfoId = "";
         private static string hwareModeInfoRange = "";
         private static string hwareModeInfoUnit = "";
-        private static bool editModeRemove = false;
 
-        private static OptionSet editModeOptions = new OptionSet()
+        private static OptionSet modeOptions = new OptionSet()
         {
+            { "c|create", "create a new mode",
+               v => createMode = (v != null) },
+            { "e|edit", "edit an existing mode",
+               v => editMode = (v != null) },
+            { "d|delete", "delete a mode",
+               v => deleteMode = (v != null) },
+
             { "n|name=", "the name of the mode",
-               v => editModeName = v },
+               v => modeName = v },
+            { "b|block=", "the block to which this mode belongs to",
+               v => modeBlockName = v },
             { "v|vixRef=", "the name of the VIX file that is the source code for this mode",
-               v => modeRef = v },
+               v => modeVIXRef = v },
             { "p|paramRef=", "adds a parameter to this block from the list of parameters defined with \"block param\"",
                v => modeParamRef = v },
             { "w|weight=", "the weight of this mode (where it goes from left to right on the palette); the existance of this element in a mode makes that mode the default mode for the block",
-               v => modeDefaultAndWeight = v },
+               v => modeWeight = v },
             { "t|type=", "the type of mode that this mode is (Measure, Compare, or Change)",
                v => modeType = v },
             { "f|flags=", "any flags for this particular mode",
@@ -184,19 +202,9 @@ namespace BlockCreatorConsole
             { "r|dataloggingRange=", "used in datalogging (this is all we know about this parameter at this point in time)",
                v => hwareModeInfoRange = v },
             { "u|dataloggingUnit=", "used in datalogging (this is all we know about this parameter at this point in time)",
-               v => hwareModeInfoUnit = v },
-            { "r|remove", "removes the elements pointed to by the other options (use this to remove elements)",
-               v => editModeRemove = (v != null) }
+               v => hwareModeInfoUnit = v }
         };
 
-        // block removemode
-        private static string removeModeName = "";
-
-        private static OptionSet removeModeOptions = new OptionSet()
-        {
-            { "n|name=", "the name of the mode to remove",
-               v => removeModeName = v }
-        };
 
         public static void Handle(string[] args)
         {
@@ -225,7 +233,24 @@ namespace BlockCreatorConsole
 
                             try
                             {
-                                BlockCreatorActions.CreateModule(moduleName, moduleVersion);
+                                if (createModule && editModule)
+                                {
+                                    ErrorWithOptions("You can only use one of the following options: -c or --create or -e or --edit");
+                                    break;
+                                }
+                                else if (createModule)
+                                {
+                                    BlockCreatorActions.CreateModule(moduleName, moduleVersion);
+                                }
+                                else if (editModule)
+                                {
+                                    BlockCreatorActions.EditModule(moduleName, moduleVersion);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("block module");
+                                    moduleOptions.WriteOptionDescriptions(Console.Out);
+                                }
                             }
                             catch (BlocksXmlValueException bxve)
                             {
@@ -233,17 +258,14 @@ namespace BlockCreatorConsole
                                 break;
                             }
 
-                            Console.WriteLine("Module name: " + moduleName);
-                            Console.WriteLine("Module version: " + moduleVersion);
-
                             break;
                         }
 
-                    case "editmodule":
+                    case "block":
                         {
                             try
                             {
-                                editModuleOptions.Parse(options);
+                                blockOptions.Parse(options);
                             }
                             catch (OptionException oe)
                             {
@@ -253,60 +275,30 @@ namespace BlockCreatorConsole
 
                             try
                             {
-                                BlockCreatorActions.EditModule(editModuleName, editModuleVersion);
-                            }
-                            catch (BlocksXmlValueException bxve)
-                            {
-                                ErrorWithBlocksXmlValue(bxve);
-                                break;
-                            }
-
-                            Console.WriteLine("Module name: " + moduleName);
-                            Console.WriteLine("Module version: " + moduleVersion);
-
-                            break;
-                        }
-
-                    case "makeblock":
-                        {
-                            try
-                            {
-                                makeBlockOptions.Parse(options);
-                            }
-                            catch (OptionException oe)
-                            {
-                                ErrorWithOptions(oe);
-                                break;
-                            }
-
-                            try
-                            {
-                                BlockCreatorActions.CreateBlock(blockName, blockFamily);
-                            }
-                            catch (BlocksXmlValueException bxve)
-                            {
-                                ErrorWithBlocksXmlValue(bxve);
-                                break;
-                            }
-
-                            break;
-                        }
-
-                    case "removeblock":
-                        {
-                            try
-                            {
-                                removeBlockOptions.Parse(options);
-                            }
-                            catch (OptionException oe)
-                            {
-                                ErrorWithOptions(oe);
-                                break;
-                            }
-
-                            try
-                            {
-                                BlockCreatorActions.RemoveBlock(removeBlockName);
+                                if ((createBlock && editBlock)
+                                    || (createBlock && deleteBlock)
+                                    || (editBlock && deleteBlock))
+                                {
+                                    ErrorWithOptions("You can only use one of the following options: -c or --create, -e or --edit, or -d or --delete");
+                                    break;
+                                }
+                                else if (createBlock)
+                                {
+                                    BlockCreatorActions.CreateBlock(blockName, blockFamily);
+                                }
+                                else if (editBlock)
+                                {
+                                    BlockCreatorActions.EditBlock(blockName, blockFamily);
+                                }
+                                else if (deleteBlock)
+                                {
+                                    BlockCreatorActions.DeleteBlock(blockName, blockFamily);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("block block");
+                                    blockOptions.WriteOptionDescriptions(Console.Out);
+                                }
                             }
                             catch (BlocksXmlValueException bxve)
                             {
@@ -316,7 +308,7 @@ namespace BlockCreatorConsole
 
                             break;
                         }
-
+                       
                     case "param":
                         {
                             try
@@ -331,7 +323,30 @@ namespace BlockCreatorConsole
 
                             try
                             {
-                                BlockCreatorActions.Parameter(paramName, paramDirection, paramDataType, paramDefaultValue, paramMinValue, paramMaxValue, paramConfig, paramIdent, paramCompilerDirs, paramValueDisplay, removeParam);
+                                if ((createParam && editParam)
+                                    || (createParam && deleteParam)
+                                    || (editParam && deleteParam))
+                                {
+                                    ErrorWithOptions("You can only use one of the following options: -c or --create, -e or --edit, or -d or --delete");
+                                    break;
+                                }
+                                else if (createParam)
+                                {
+                                    BlockCreatorActions.CreateParam(paramName, paramDirection, paramDataType, paramDefaultValue, paramMinValue, paramMaxValue, paramConfig, paramIdent, paramCompilerDirs, paramValueDisplay);
+                                }
+                                else if (editParam)
+                                {
+                                    BlockCreatorActions.EditParam(paramName, paramDirection, paramDataType, paramDefaultValue, paramMinValue, paramMaxValue, paramConfig, paramIdent, paramCompilerDirs, paramValueDisplay);
+                                }
+                                else if (deleteParam)
+                                {
+                                    BlockCreatorActions.DeleteParam(paramName);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("block param");
+                                    paramOptions.WriteOptionDescriptions(Console.Out);
+                                }
                             }
                             catch (BlocksXmlValueException bxve)
                             {
@@ -342,11 +357,91 @@ namespace BlockCreatorConsole
                             break;
                         }
 
+                    case "hardware":
+                        {
+                            try
+                            {
+                                hwareOptions.Parse(options);
+                            }
+                            catch (OptionException oe)
+                            {
+                                ErrorWithOptions(oe);
+                                break;
+                            }
+
+                            try
+                            {
+                                BlockCreatorActions.EditHardwareInfo(hwareBlockName, hwareEv3AutoId, hwareOtherAutoId, hwareDirection, hwareDefaultPort);
+                            }
+                            catch (BlocksXmlValueException bxve)
+                            {
+                                ErrorWithBlocksXmlValue(bxve);
+                                break;
+                            }
+
+                            break;
+                        }
+
+                    case "mode":
+                        {
+                            try
+                            {
+                                modeOptions.Parse(options);
+                            }
+                            catch (OptionException oe)
+                            {
+                                ErrorWithOptions(oe);
+                                break;
+                            }
+                            
+                            try
+                            {
+                                if ((createMode && editMode)
+                                    || (createMode && deleteMode)
+                                    || (editMode && deleteMode))
+                                {
+                                    ErrorWithOptions("You can only use one of the following options: -c or --create, -e or --edit, or -d or --delete");
+                                    break;
+                                }
+                                else if (createMode)
+                                {
+                                    BlockCreatorActions.CreateMode(modeName, modeBlockName, modeVIXRef, modeParamRef, modeWeight, modeType, modeFlags, hwareModeInfoName, hwareModeInfoId, hwareModeInfoRange, hwareModeInfoUnit);
+                                }
+                                else if (editMode)
+                                {
+                                    BlockCreatorActions.EditMode(modeName, modeBlockName, modeVIXRef, modeParamRef, modeWeight, modeType, modeFlags, hwareModeInfoName, hwareModeInfoId, hwareModeInfoRange, hwareModeInfoUnit);
+                                }
+                                else if (deleteMode)
+                                {
+                                    BlockCreatorActions.DeleteMode(modeName);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("block mode");
+                                    modeOptions.WriteOptionDescriptions(Console.Out);
+                                }
+                            }
+                            catch (BlocksXmlValueException bxve)
+                            {
+                                ErrorWithBlocksXmlValue(bxve);
+                                break;
+                            }
+
+                            break;
+                        }
+
+                    case "finish":
+                        {
+                            BlockCreatorActions.Finish();
+
+                            break;
+                        }
+
                     default:
                         {
                             try
                             {
-                                noCommandOptions.Parse(args);
+                                noCommandGivenOptions.Parse(args);
                             }
                             catch (OptionException oe)
                             {
@@ -384,12 +479,18 @@ namespace BlockCreatorConsole
             Console.WriteLine();
 
             Console.WriteLine("block");
-            noCommandOptions.WriteOptionDescriptions(Console.Out);
+            noCommandGivenOptions.WriteOptionDescriptions(Console.Out);
 
             Console.WriteLine();
 
             Console.WriteLine("block module");
             moduleOptions.WriteOptionDescriptions(Console.Out);
+        }
+        
+        private static void ErrorWithOptions(string error)
+        {
+            Console.WriteLine("Error: " + error);
+            Console.WriteLine("Try 'block --help' for more information");
         }
 
         private static void ErrorWithOptions(OptionException oe)

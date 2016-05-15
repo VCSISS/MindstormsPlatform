@@ -78,6 +78,66 @@ namespace BlockCreatorLogic
             }
         }
         
+        public static void EditModule(string moduleName, string moduleVersion)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void CreateBlock(string blockName, string blockFamily)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void EditBlock(string blockName, string blockFamily)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void DeleteBlock(string blockName, string blockFamily)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void CreateParam(string paramName, string paramDirection, string paramDataType, string paramDefaultValue, string paramMinValue, string paramMaxValue, string paramConfig, string paramIdent, string paramCompilerDirs, string paramValueDisplay)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void EditParam(string paramName, string paramDirection, string paramDataType, string paramDefaultValue, string paramMinValue, string paramMaxValue, string paramConfig, string paramIdent, string paramCompilerDirs, string paramValueDisplay)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void DeleteParam(string paramName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void EditHardwareInfo(string hwareBlockName, string hwareEv3AutoId, string hwareOtherAutoId, string hwareDirection, string hwareDefaultPort)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void CreateMode(string modeName, string modeBlockName, string modeVIXRef, string modeParamRef, object modeWeight, string modeType, string modeFlags, string hwareModeInfoName, string hwareModeInfoId, string hwareModeInfoRange, string hwareModeInfoUnit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void EditMode(string modeName, string modeBlockName, string modeVIXRef, string modeParamRef, object modeWeight, string modeType, string modeFlags, string hwareModeInfoName, string hwareModeInfoId, string hwareModeInfoRange, string hwareModeInfoUnit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void DeleteMode(string modeName)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public static void Finish()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Throws an error that occurred because of an invalid value
         /// given to be used in the blocks.xml file.
