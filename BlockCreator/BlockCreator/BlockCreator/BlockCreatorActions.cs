@@ -1,5 +1,6 @@
 ﻿using BlockCreatorLogic.Exceptions;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
 
@@ -78,19 +79,158 @@ namespace BlockCreatorLogic
             }
         }
         
-        public static void EditModule(string moduleName, string moduleVersion)
+        /// <summary>
+        /// Edits an existing module; this command assumes that the
+        /// working directory is the parent directory of the entire
+        /// block folder.
+        /// </summary>
+        /// <param name="moduleName"></param>
+        /// <param name="moduleVersion"></param>
+        /// <param name="moduleOldName"></param>
+        public static void EditModule(string moduleName, string moduleVersion, string moduleOldName)
         {
-            throw new NotImplementedException();
+            if (moduleName == "" && moduleVersion == "")
+            {
+                // TODO: figure out which parameter should be associated with this errors
+                LogBlocksXmlValueError("moduleName", "You have to specify either the module name or the module version");
+            }
+            else if (moduleName != "" && moduleOldName != "" && moduleVersion == "")
+            {
+                LogBlocksXmlValueError("moduleName", "You cannot use the options --name, --old, and --version at the same time");
+            }
+            
+            // block module --name "NewName" --old "OldName"
+            if (moduleName != "" && moduleOldName != "")
+            {
+                if (Directory.Exists(moduleOldName))
+                {
+                    Directory.Move(moduleOldName, moduleName);
+
+                    Directory.SetCurrentDirectory(moduleName);
+                        
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load("blocks.xml");
+
+                    XmlNode root = doc.DocumentElement;
+
+                    XmlElement polyGroups = (XmlElement)root.SelectSingleNode("//PolyGroups");
+                        
+                    XmlAttribute moduleNameAttr = (XmlAttribute)polyGroups.SelectSingleNode("@ModuleName");
+
+                    if (moduleNameAttr != null)
+                    {
+                        moduleNameAttr.Value = moduleName;
+                    }
+                    else
+                    {
+                        // TODO: maybe let the user know that this value for some reason
+                        // not defined
+                        polyGroups.SetAttribute("ModuleName", moduleName);
+                    }
+
+                    doc.Save("blocks.xml");
+                }
+                else
+                {
+                    LogBlocksXmlValueError("moduleOldName", "Cannot find a module named " + moduleOldName);
+                }
+            }
+            // block module --version "1.00" --name "Name"
+            else if (moduleVersion != "")
+            {
+                if (moduleName == "")
+                {
+                    LogBlocksXmlValueError("moduleName", "You must specify the module's name to edit a module's version");
+                }
+
+                Directory.SetCurrentDirectory(moduleName);
+
+                XmlDocument doc = new XmlDocument();
+                doc.Load("blocks.xml");
+
+                XmlElement polyGroups = (XmlElement)doc.DocumentElement.SelectSingleNode("//PolyGroups");
+
+                XmlAttribute moduleVersionAttr = (XmlAttribute)polyGroups.SelectSingleNode("@ModuleVersion");
+
+                // TODO: jut use SetAttribute for these
+                if (moduleVersionAttr != null)
+                {
+                    moduleVersionAttr.Value = moduleVersion;
+                }
+                else
+                {
+                    polyGroups.SetAttribute("ModuleVersion", moduleVersion);
+                }
+
+                doc.Save("blocks.xml");
+            }
+            else if (moduleName != "" && moduleOldName == "")
+            {
+                // TODO: rather than things like moduleOldName, use
+                // human readable things like Module Old Name
+                LogBlocksXmlValueError("moduleOldName", "You must specify the old name of the module in order to rename it");
+            }
+            else
+            {
+                LogBlocksXmlValueError("moduleName", "Invalid usage of the command \"block module\"; try \"block module --help\" for more information");
+            }
         }
 
         public static void CreateBlock(string blockName, string blockFamily)
         {
-            throw new NotImplementedException();
+            // TODO: prevent creation of multiple blocks with the same name
+
+            // Edit blocks.xml
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load("blocks.xml");
+
+            XmlElement polyGroups = (XmlElement)doc.DocumentElement.SelectSingleNode("//PolyGroups");
+
+            XmlElement blockPolyGroup = doc.CreateElement("PolyGroup");
+
+            blockPolyGroup.SetAttribute("Name", blockName);
+            blockPolyGroup.SetAttribute("BlockFamily", blockFamily);
+
+            blockPolyGroup.AppendChild(doc.CreateElement("Hardware"));
+
+            polyGroups.AppendChild(blockPolyGroup);
+
+            doc.Save("blocks.xml");
+
+            // Edit strings blocks.xml
+
+            // Create image files
         }
 
-        public static void EditBlock(string blockName, string blockFamily)
+        public static void EditBlock(string blockName, string blockFamily, string blockNewName)
         {
-            throw new NotImplementedException();
+            XmlDocument doc = new XmlDocument();
+            doc.Load("blocks.xml");
+
+            XmlElement polyGroups = (XmlElement)doc.DocumentElement.SelectSingleNode("//PolyGroups");
+
+            XmlNodeList polyGroupList = doc.SelectNodes("//PolyGroup");
+
+            foreach (XmlNode node in polyGroupList)
+            {
+                if (node.SelectSingleNode("@Name").Value == blockName)
+                {
+                    XmlElement blockPolyGroup = (XmlElement)node;
+
+                    if (blockNewName != "")
+                    {
+                        blockPolyGroup.SetAttribute("Name", blockNewName);
+                    }
+
+                    if (blockFamily != "")
+                    {
+                        blockPolyGroup.SetAttribute("BlockFamily", blockFamily);
+                    }
+                }
+            }
+            
+            doc.Save("blocks.xml");
         }
 
         public static void DeleteBlock(string blockName, string blockFamily)
@@ -100,12 +240,95 @@ namespace BlockCreatorLogic
 
         public static void CreateParam(string paramName, string paramDirection, string paramDataType, string paramDefaultValue, string paramMinValue, string paramMaxValue, string paramConfig, string paramIdent, string paramCompilerDirs, string paramValueDisplay)
         {
-            throw new NotImplementedException();
+            // TODO: prevent creating multiple parameters with the same name
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load("blocks.xml");
+
+            XmlElement polyGroups = (XmlElement)doc.DocumentElement.SelectSingleNode("//PolyGroups");
+
+            XmlElement param = doc.CreateElement("Parameter");
+
+            param.SetAttribute("Name", paramName);
+            param.SetAttribute("Direction", paramDirection);
+            param.SetAttribute("DataType", paramDataType);
+            param.SetAttribute("DefaultValue", paramDefaultValue);
+            param.SetAttribute("MinValue", paramMinValue);
+            param.SetAttribute("MaxValue", paramMaxValue);
+            param.SetAttribute("Configuration", paramConfig);
+            param.SetAttribute("Identification", paramIdent);
+            param.SetAttribute("CompilerDirectives", paramCompilerDirs);
+            param.SetAttribute("ValueDisplay", paramValueDisplay);
+
+            polyGroups.AppendChild(param);
+
+            doc.Save("blocks.xml");
         }
 
-        public static void EditParam(string paramName, string paramDirection, string paramDataType, string paramDefaultValue, string paramMinValue, string paramMaxValue, string paramConfig, string paramIdent, string paramCompilerDirs, string paramValueDisplay)
+        public static void EditParam(string paramName, string paramNewName, string paramDirection, string paramDataType, string paramDefaultValue, string paramMinValue, string paramMaxValue, string paramConfig, string paramIdent, string paramCompilerDirs, string paramValueDisplay)
         {
-            throw new NotImplementedException();
+            XmlDocument doc = new XmlDocument();
+            doc.Load("blocks.xml");
+
+            XmlElement polyGroups = (XmlElement)doc.DocumentElement.SelectSingleNode("//PolyGroups");
+    
+            foreach (XmlElement element in polyGroups.GetElementsByTagName("Parameter"))
+            {
+                if (element.SelectSingleNode("@Name").Value == paramName)
+                {
+                    if (paramNewName != "")
+                    {
+                        element.SetAttribute("Name", paramNewName);
+                    }
+
+                    if (paramDirection != "")
+                    {
+                        element.SetAttribute("Direction", paramDirection);
+                    }
+
+                    if (paramDataType != "")
+                    {
+                        element.SetAttribute("DataType", paramDataType);
+                    }
+
+                    if (paramDefaultValue != "")
+                    {
+                        element.SetAttribute("DefaultValue", paramDefaultValue);
+                    }
+
+                    if (paramMinValue != "")
+                    {
+                        element.SetAttribute("MinValue", paramMinValue);
+                    }
+
+                    if (paramMaxValue != "")
+                    {
+                        element.SetAttribute("MaxValue", paramMaxValue);
+                    }
+
+                    if (paramConfig != "")
+                    {
+                        element.SetAttribute("Configuration", paramConfig);
+                    }
+
+                    if (paramIdent != "")
+                    {
+                        element.SetAttribute("Identification", paramIdent);
+                    }
+
+                    if (paramCompilerDirs != "")
+                    {
+                        element.SetAttribute("CompilerDirectives", paramCompilerDirs);
+                    }
+
+                    if (paramValueDisplay != "")
+                    {
+                        element.SetAttribute("ValueDisplay", paramValueDisplay);
+                    }
+                }
+            }
+
+            doc.Save("blocks.xml");
         }
 
         public static void DeleteParam(string paramName)

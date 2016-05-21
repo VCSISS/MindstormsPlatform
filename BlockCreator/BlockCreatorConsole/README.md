@@ -27,4 +27,8 @@ to create the most basic importable block.
 
 # About the directory structure and blocks.xml
 
+All commands except for "block module" calls should be run directly
+within the block's main directory. The "block module" calls should be run
+within the parent directory of the block.
+
 # Sample blocks.xml using Program.cs members

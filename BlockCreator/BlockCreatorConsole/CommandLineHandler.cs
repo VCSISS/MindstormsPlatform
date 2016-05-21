@@ -37,7 +37,8 @@ namespace BlockCreatorConsole
         // To see how each of these parameters are used in the
         // generated blocks.xml, see README.md
 
-        // TODO: add -h or --help option to each of these
+        // TODO: add -h or --help option to each of these to describe
+        // usage
 
         // block module
         private static bool createModule = false;
@@ -45,7 +46,8 @@ namespace BlockCreatorConsole
 
         private static string moduleName = "";
         private static string moduleVersion = "";
-       
+        private static string moduleOldName = "";
+
         private static OptionSet moduleOptions = new OptionSet()
         {
             { "c|create", "create a new module",
@@ -56,7 +58,9 @@ namespace BlockCreatorConsole
             { "n|name=", "the name of the module",
                 v => moduleName = v },
             { "v|version=", "the current version of the module",
-                v => moduleVersion = v }
+                v => moduleVersion = v },
+            {  "o|old=", "the current name of the module when changing a module's name",
+                v => moduleOldName = v }
         };
 
         // block block
@@ -66,6 +70,7 @@ namespace BlockCreatorConsole
 
         private static string blockName = "";
         private static string blockFamily = "";
+        private static string blockNewName = "";
 
         private static OptionSet blockOptions = new OptionSet()
         {
@@ -79,7 +84,9 @@ namespace BlockCreatorConsole
             { "n|name=", "the name of the block",
               v => blockName = v },
             { "f|family=", "the family the block is in (Action, DataOperations, FlowControl, Sensor, or Advanced)",
-              v => blockFamily = v }
+              v => blockFamily = v },
+            { "w|new=", "the new name of the block if its name is being edited",
+              v => blockNewName = v }
         };
 
         // block param
@@ -88,6 +95,7 @@ namespace BlockCreatorConsole
         private static bool editParam = false;
 
         private static string paramName = "";
+        private static string paramNewName = "";
         private static string paramDirection = "";
         private static string paramDataType = ""; // TODO: to keep BlockCreator simple, we may remove this
         private static string paramDefaultValue = "";
@@ -109,6 +117,8 @@ namespace BlockCreatorConsole
 
             { "n|name=", "the name of the parameter",
               v => paramName = v },
+            { "w|new=", "the new name of the parameter if its name is being edited",
+              v => paramNewName = v },
             { "d|direction=", "the direction of the parameter; this can be Input or Output (argument or return value)",
               v => paramDirection = v },
             { "t|dataType=", "the data type of the parameter (this should usually be Single, except for special cases you can find in the EV3 Block Developer Kit)",
@@ -119,11 +129,11 @@ namespace BlockCreatorConsole
               v => paramMinValue = v },
             { "a|maxValue=", "the maximum value of the parameter",
               v => paramMaxValue = v },
-            { "c|configuration=", "the parameter's configuration (what the parameter does when you click on it)",
+            { "o|configuration=", "the parameter's configuration (what the parameter does when you click on it)",
               v => paramConfig = v },
             { "i|identification=", "the image associated with this parameter",
               v => paramIdent = v },
-            { "i|compilerDirs=", "any special purposes that this parameter will be used for",
+            { "l|compilerDirs=", "any special purposes that this parameter will be used for",
               v => paramCompilerDirs = v },
             // TODO: figure out what valueDisplay actually does (the documentation only mentions this one
             // purpose as an example, but doesn't actually say what it represents)
@@ -244,7 +254,7 @@ namespace BlockCreatorConsole
                                 }
                                 else if (editModule)
                                 {
-                                    BlockCreatorActions.EditModule(moduleName, moduleVersion);
+                                    BlockCreatorActions.EditModule(moduleName, moduleVersion, moduleOldName);
                                 }
                                 else
                                 {
@@ -288,7 +298,7 @@ namespace BlockCreatorConsole
                                 }
                                 else if (editBlock)
                                 {
-                                    BlockCreatorActions.EditBlock(blockName, blockFamily);
+                                    BlockCreatorActions.EditBlock(blockName, blockFamily, blockNewName);
                                 }
                                 else if (deleteBlock)
                                 {
@@ -336,7 +346,7 @@ namespace BlockCreatorConsole
                                 }
                                 else if (editParam)
                                 {
-                                    BlockCreatorActions.EditParam(paramName, paramDirection, paramDataType, paramDefaultValue, paramMinValue, paramMaxValue, paramConfig, paramIdent, paramCompilerDirs, paramValueDisplay);
+                                    BlockCreatorActions.EditParam(paramName, paramNewName, paramDirection, paramDataType, paramDefaultValue, paramMinValue, paramMaxValue, paramConfig, paramIdent, paramCompilerDirs, paramValueDisplay);
                                 }
                                 else if (deleteParam)
                                 {
